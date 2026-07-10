@@ -17,8 +17,8 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Сайт для Юрия с YouDo — премиальный магазин детских товаров" },
       { name: "description", content: "B2B/B2C интернет-магазин детских товаров: каталог 5000+ SKU, оптовые цены, ИИ-консультант, быстрая доставка." },
-      { property: "og:title", content: "Сайт для Юрия с YouDo — магазин детских товаров" },
-      { property: "og:description", content: "Премиальный B2B/B2C магазин: одежда, игрушки, коляски, мебель. Оптовые цены и ИИ-помощник." },
+      { property: "og:title", content: "Сайт для Юрия с YouDo — премиальный магазин детских товаров" },
+      { property: "og:description", content: "B2B/B2C интернет-магазин детских товаров: каталог 5000+ SKU, оптовые цены, ИИ-консультант, быстрая доставка." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
