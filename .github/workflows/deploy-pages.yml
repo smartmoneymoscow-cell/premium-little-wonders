@@ -24,15 +24,31 @@ jobs:
 
       - run: bun install
 
-      - name: Build static site
+      - name: Build client bundle
         env:
-          NITRO_PRESET: static
-        run: bun run build
+          VITE_BASE: /premium-little-wonders/
+        run: bunx vite build --mode production
+
+      - name: Prepare output
+        run: |
+          mkdir -p dist
+          cp -r .output/public/* dist/ 2>/dev/null || true
+          if [ ! -f dist/index.html ]; then
+            cp -r client/* dist/ 2>/dev/null || true
+          fi
+          if [ ! -f dist/index.html ]; then
+            echo "ERROR: No index.html found"
+            find . -name "index.html" -not -path "*/node_modules/*" | head -5
+            exit 1
+          fi
+
+      - name: Add .nojekyll
+        run: touch dist/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .output/public
+          path: dist
 
   deploy:
     needs: build
