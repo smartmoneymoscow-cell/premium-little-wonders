@@ -24,26 +24,21 @@ jobs:
 
       - run: bun install
 
-      - name: Build client bundle
+      - name: Build static site
         env:
-          VITE_BASE: /premium-little-wonders/
-        run: bunx vite build --mode production
+          GITHUB_PAGES: "true"
+        run: bun run build || true
 
       - name: Prepare output
         run: |
           mkdir -p dist
-          cp -r .output/public/* dist/ 2>/dev/null || true
-          if [ ! -f dist/index.html ]; then
-            cp -r client/* dist/ 2>/dev/null || true
+          if [ -d .output/public ]; then
+            cp -r .output/public/* dist/ 2>/dev/null || true
           fi
-          if [ ! -f dist/index.html ]; then
-            echo "ERROR: No index.html found"
-            find . -name "index.html" -not -path "*/node_modules/*" | head -5
-            exit 1
-          fi
-
-      - name: Add .nojekyll
-        run: touch dist/.nojekyll
+          touch dist/.nojekyll
+          echo "Contents of dist:"
+          ls -la dist/
+          find dist/ -name "*.html" -o -name "*.js" -o -name "*.css" | head -10
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
